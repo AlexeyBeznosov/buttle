@@ -1,11 +1,22 @@
 package io.mydevelopment.elf;
 
 import io.mydevelopment.AbstractWarrior;
-import io.mydevelopment.Archer;
+import io.mydevelopment.Squad;
+import io.mydevelopment.base.Archer;
 
-public class ArcherElf extends AbstractWarrior implements Archer {
+import java.util.Set;
+
+public class ArcherElf extends Archer {
 
     public void doFight(AbstractWarrior abstractWarrior) {
+
+    }
+
+    public void chooseOtherWarrior(Set<AbstractWarrior> setOfWarriors) {
+
+    }
+
+    public void chooseDo(Set<Squad> setSquads) {
 
     }
 
