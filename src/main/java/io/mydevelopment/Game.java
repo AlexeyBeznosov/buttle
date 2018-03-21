@@ -31,8 +31,12 @@ public class Game {
             if (!checkContainsRace(number)) {
                 Race race = Race.values()[number];
                 races.add(race);
+                Squad squad = new Squad(race, COUNT_WARLOCK, COUNT_ARCHER, COUNT_FIGHTER);
+                squad.createSquad();
+
+                squads.add(squad);
                 countSquad++;
-                System.out.println(number + race.toString());
+                System.out.println(number + " - " + race.toString());
             }
 //            if (number == 0) {
 //            }
