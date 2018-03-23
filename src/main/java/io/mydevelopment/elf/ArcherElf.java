@@ -1,6 +1,7 @@
 package io.mydevelopment.elf;
 
 import io.mydevelopment.AbstractWarrior;
+import io.mydevelopment.Action;
 import io.mydevelopment.Race;
 import io.mydevelopment.Squad;
 import io.mydevelopment.base.Archer;
@@ -30,12 +31,24 @@ public class ArcherElf extends Archer {
 
     }
 
-    public void chooseOtherWarrior(List<AbstractWarrior> setOfWarriors) {
+    public AbstractWarrior chooseOtherWarrior(Action action, List<Squad> squads) {
+        return null;
+    }
+
+    public List<Squad> getEnemySquad(Squad squad, Action action, List<Squad> squads) {
+        return null;
+    }
+
+    public void doHit(Action action, AbstractWarrior abstractWarriorEnemy) {
 
     }
 
-    public void chooseDo(List<Squad> setSquads) {
+    public List<Squad> getEnemySquad(List<Squad> squads) {
+        return null;
+    }
 
+    public AbstractWarrior chooseOtherWarrior(List<Squad> squads) {
+        return null;
     }
 
     public void doArchery(AbstractWarrior abstractWarrior) {

@@ -1,6 +1,7 @@
 package io.mydevelopment.undead;
 
 import io.mydevelopment.AbstractWarrior;
+import io.mydevelopment.Action;
 import io.mydevelopment.Race;
 import io.mydevelopment.Squad;
 import io.mydevelopment.base.Fighter;
@@ -25,11 +26,15 @@ public class FighterUndead extends Fighter {
 
     }
 
-    public void chooseOtherWarrior(List<AbstractWarrior> setOfWarriors) {
-
+    public AbstractWarrior chooseOtherWarrior(Action action, List<Squad> squads) {
+        return null;
     }
 
-    public void chooseDo(List<Squad> setSquads) {
+    public List<Squad> getEnemySquad(List<Squad> squads) {
+        return null;
+    }
 
+    public AbstractWarrior chooseOtherWarrior(List<Squad> squads) {
+        return null;
     }
 }

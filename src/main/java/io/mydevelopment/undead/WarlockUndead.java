@@ -1,13 +1,16 @@
 package io.mydevelopment.undead;
 
 import io.mydevelopment.AbstractWarrior;
+import io.mydevelopment.Action;
 import io.mydevelopment.Race;
+
 import io.mydevelopment.Squad;
 import io.mydevelopment.base.Warlock;
 
 import java.util.List;
 
 public class WarlockUndead extends Warlock {
+    protected int hitFight = 5;
 
     public WarlockUndead() {
     }
@@ -16,16 +19,24 @@ public class WarlockUndead extends Warlock {
         super(race, sideOfWar);
     }
 
+    public int getHitFight() {
+        return hitFight;
+    }
+
     public void doFight(AbstractWarrior abstractWarrior) {
 
     }
 
-    public void chooseOtherWarrior(List<AbstractWarrior> setOfWarriors) {
-
+    public AbstractWarrior chooseOtherWarrior(Action action, List<Squad> squads) {
+        return null;
     }
 
-    public void chooseDo(List<Squad> setSquads) {
+    public List<Squad> getEnemySquad(List<Squad> squads) {
+        return null;
+    }
 
+    public AbstractWarrior chooseOtherWarrior(List<Squad> squads) {
+        return null;
     }
 
     public void doWiz(AbstractWarrior abstractWarrior) {

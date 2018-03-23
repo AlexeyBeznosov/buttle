@@ -1,48 +1,80 @@
 package io.mydevelopment;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Game {
     final int COUNT_WARLOCK = 1;
     final int COUNT_ARCHER = 3;
     final int COUNT_FIGHTER = 4;
-    Set<Race> races;
-    Set<Squad> squads;
+    List<Race> races;
+    List<Squad> squads;
 
     public Game() {
-        squads = new HashSet<Squad>();
-        races = new HashSet<Race>();
+        squads = new ArrayList<Squad>();
+        races = new ArrayList<Race>();
     }
 
-    public Set<Squad> getSquads() {
+    public List<Squad> getSquads() {
         return squads;
     }
 
-    public void setSquads(Set<Squad> squads) {
+    public void setSquads(List<Squad> squads) {
         this.squads = squads;
     }
 
     public void start() {
+        int numberOfSquads = 2;
+        generateRaces(numberOfSquads);
+        generateSquadsOfRaces();
+        doFight();
+
+
+    }
+
+    private void doFight() {
+        Squad currentSquad = selectRandomSquad();
+        do {
+            currentSquad.fightWarrior(squads);
+            currentSquad = selectOtherSquad(currentSquad);
+        } while (!currentSquad.getWarriors().isEmpty());
+
+
+    }
+
+    private Squad selectOtherSquad(Squad currentSquad) {
+        Squad squad;
+        do {
+            squad = selectRandomSquad();
+        } while (squad.getRace() == currentSquad.getRace());
+        return squad;
+    }
+
+    private Squad selectRandomSquad() {
+        int choiseSquad = (int) Math.round(Math.random());
+        return squads.get(choiseSquad);
+    }
+
+    private void generateSquadsOfRaces() {
+        for (Race race : races) {
+            Squad squad = new Squad(race, COUNT_WARLOCK, COUNT_ARCHER, COUNT_FIGHTER);
+            squad.createSquad();
+            squads.add(squad);
+        }
+    }
+
+    private void generateRaces(int numberOfSquads) {
         int countSquad = 0;
         int countOfRases = Race.values().length;
-        while (countSquad < 2) {
+        while (countSquad < numberOfSquads) {
             int number = (int) Math.round((countOfRases - 1) * Math.random());
             if (!checkContainsRace(number)) {
                 Race race = Race.values()[number];
                 races.add(race);
-                Squad squad = new Squad(race, COUNT_WARLOCK, COUNT_ARCHER, COUNT_FIGHTER);
-                squad.createSquad();
-
-                squads.add(squad);
                 countSquad++;
-                System.out.println(number + " - " + race.toString());
+                System.out.println(number + " - " + race);
             }
-//            if (number == 0) {
-//            }
-            //Squad squadElf = new Squad();
         }
-
     }
 
     private boolean checkContainsRace(int number) {

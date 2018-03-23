@@ -1,5 +1,6 @@
 package io.mydevelopment;
 
+import io.mydevelopment.base.Warlock;
 import io.mydevelopment.elf.ArcherElf;
 import io.mydevelopment.elf.FighterElf;
 import io.mydevelopment.elf.WarlockElf;
@@ -13,17 +14,17 @@ import io.mydevelopment.undead.ArcherUndead;
 import io.mydevelopment.undead.FighterUndead;
 import io.mydevelopment.undead.WarlockUndead;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Squad {
-    Set<AbstractWarrior> warriors;
-    Set<AbstractWarrior> privilegedWarriors;
-    Race race;
-    boolean sideOfWar;
-    int countWarlock;
-    int countArcher;
-    int countFighter;
+    private List<AbstractWarrior> warriors;
+    private List<AbstractWarrior> privilegedWarriors;
+    private Race race;
+    private boolean sideOfWar;
+    private int countWarlock;
+    private int countArcher;
+    private int countFighter;
 
     public Squad(Race race, int countWarlock, int countArcher, int countFighter) {
         this.race = race;
@@ -32,9 +33,25 @@ public class Squad {
         this.countFighter = countFighter;
     }
 
+    public List<AbstractWarrior> getWarriors() {
+        return warriors;
+    }
+
+    public List<AbstractWarrior> getPrivilegedWarriors() {
+        return privilegedWarriors;
+    }
+
+    public Race getRace() {
+        return race;
+    }
+
+    public boolean getSideOfWar() {
+        return sideOfWar;
+    }
+
     public void createSquad() {
-        warriors = new HashSet<AbstractWarrior>();
-        privilegedWarriors = new HashSet<AbstractWarrior>();
+        warriors = new ArrayList<AbstractWarrior>();
+        privilegedWarriors = new ArrayList<AbstractWarrior>();
         switch (race) {
             case ELF: {
                 sideOfWar = true;
@@ -119,13 +136,51 @@ public class Squad {
     }
 
     private void fillSquad(Class<WarlockUndead> warlockUndeadClass) {
-
         try {
             AbstractWarrior warrior = warlockUndeadClass.newInstance();
+            warrior.getHealth();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    public void fightWarrior(List<Squad> squads) {
+        AbstractWarrior abstractWarrior = selectWarrior();
+        Action action = abstractWarrior.selectRandomAction();
+
+        List<Squad> enemySquads = abstractWarrior.getEnemySquad(this, action, squads);
+        Squad enemySquad = getRandomSquad(enemySquads);
+        AbstractWarrior abstractWarriorEnemy = getRandomWarrior(enemySquad.getWarriors());
+        abstractWarrior.doHit(action, abstractWarriorEnemy, enemySquad);
+
+
+        if (abstractWarrior.isPrivileged()) {
+            abstractWarrior.setPrivileged(false);
+        }
+        if (abstractWarrior.getKoefHit() < 1 ) {
+            abstractWarrior.setKoefHit(1);
+        }
+    }
+
+    private Squad getRandomSquad(List<Squad> enemySquads) {
+        int choise = (int) Math.round((enemySquads.size() - 1) * Math.random());
+        return enemySquads.get(choise);
+    }
+
+    private AbstractWarrior selectWarrior() {
+        AbstractWarrior abstractWarrior;
+        if (!privilegedWarriors.isEmpty()) {
+            abstractWarrior = getRandomWarrior(privilegedWarriors);
+        } else {
+            abstractWarrior = getRandomWarrior(warriors);
+        }
+        return abstractWarrior;
+    }
+
+    private AbstractWarrior getRandomWarrior(List<AbstractWarrior> warriors) {
+        int choise = (int) Math.round((warriors.size() - 1) * Math.random());
+        return warriors.get(choise);
     }
 }
