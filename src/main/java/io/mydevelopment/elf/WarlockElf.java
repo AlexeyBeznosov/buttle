@@ -15,8 +15,8 @@ public class WarlockElf extends Warlock {
     public WarlockElf() {
     }
 
-    public WarlockElf(Race race, boolean sideOfWar) {
-        super(race, sideOfWar);
+    public WarlockElf(Race race, boolean sideOfWar, Squad currentSquad) {
+        super(race, sideOfWar, currentSquad);
     }
 
     public int getHitFight() {
@@ -27,59 +27,20 @@ public class WarlockElf extends Warlock {
         this.hitFight = hitFight;
     }
 
-    public void doFight(AbstractWarrior abstractWarrior) {
-        if (abstractWarrior.getHealth() > hitFight) {
-            abstractWarrior.setHealth(abstractWarrior.getHealth() - hitFight);
-        } else {
-            abstractWarrior.setHealth(0);
-        }
-    }
-
     public AbstractWarrior chooseOtherWarrior(Action action, List<Squad> squads) {
-        AbstractWarrior abstractWarrior = this;
-
         return null;
-    }
-
-    public List<Squad> getEnemySquad(Squad squad, Action action, List<Squad> squads) {
-        List<Squad> enemySquads = new ArrayList<Squad>();
-        switch (action) {
-            case WIZ: {
-                for (Squad squadOfGame : squads) {
-                    if (squadOfGame.getSideOfWar() == squad.getSideOfWar()) {
-                        enemySquads.add(squadOfGame);
-                    }
-                }
-                return enemySquads;
-            }
-            case FIGHT: {
-                for (Squad squadOfGame : squads) {
-                    if (!(squadOfGame.getSideOfWar() == squad.getSideOfWar())) {
-                        enemySquads.add(squadOfGame);
-                    }
-                }
-                return enemySquads;
-            }
-        }
-        return null;
-    }
-
-    public void doHit(Action action, AbstractWarrior abstractWarriorEnemy, Squad squad) {
-        switch (action) {
-            case WIZ: {
-                doWiz(abstractWarriorEnemy);
-                squad.getPrivilegedWarriors().add(abstractWarriorEnemy);
-            }
-            case FIGHT: {
-                doFight(abstractWarriorEnemy);
-                if (abstractWarriorEnemy.getHealth() == 0) {
-                    squad.getWarriors().remove(abstractWarriorEnemy);
-                }
-            }
-        }
     }
 
     public void doWiz(AbstractWarrior abstractWarrior) {
         abstractWarrior.setPrivileged(true);
+    }
+
+    public void doFight(AbstractWarrior abstractWarrior) {
+        int currentHit = (int) Math.round(hitFight * this.getKoefHit());
+        if (abstractWarrior.getHealth() > currentHit) {
+            abstractWarrior.setHealth(abstractWarrior.getHealth() - currentHit);
+        } else {
+            abstractWarrior.setHealth(0);
+        }
     }
 }

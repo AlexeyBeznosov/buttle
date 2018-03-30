@@ -1,17 +1,18 @@
 package io.mydevelopment.base;
 
-import io.mydevelopment.AbstractWarrior;
-import io.mydevelopment.Action;
-import io.mydevelopment.Archerable;
-import io.mydevelopment.Race;
+import io.mydevelopment.*;
+import io.mydevelopment.elf.ArcherElf;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Archer extends AbstractWarrior implements Archerable {
 
     public Archer() {
     }
 
-    public Archer(Race race, boolean sideOfWar) {
-        super(race, sideOfWar);
+    public Archer(Race race, boolean sideOfWar, Squad currentSquad) {
+        super(race, sideOfWar, currentSquad);
     }
 
     @Override
@@ -21,5 +22,21 @@ public abstract class Archer extends AbstractWarrior implements Archerable {
         actions.add(action);
         action = Action.FIGHT;
         actions.add(action);
+    }
+
+    public void doHit(Action action, AbstractWarrior abstractWarriorEnemy, Squad enemySquad) {
+        switch (action) {
+            case ARC: {
+                doArchery(abstractWarriorEnemy);
+                if (!chechHealth(abstractWarriorEnemy)) {
+                    enemySquad.getWarriors().remove(abstractWarriorEnemy);
+                }
+                break;
+            }
+            case FIGHT: {
+                super.doHit(action, abstractWarriorEnemy, enemySquad);
+                break;
+            }
+        }
     }
 }

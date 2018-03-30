@@ -15,8 +15,8 @@ public class ArcherElf extends Archer {
     public ArcherElf() {
     }
 
-    public ArcherElf(Race race, boolean sideOfWar) {
-        super(race, sideOfWar);
+    public ArcherElf(Race race, boolean sideOfWar, Squad currentSquad) {
+        super(race, sideOfWar, currentSquad);
     }
 
     public int getHitArc() {
@@ -28,22 +28,15 @@ public class ArcherElf extends Archer {
     }
 
     public void doFight(AbstractWarrior abstractWarrior) {
-
+        int currentHit = (int) Math.round(hitFight * this.getKoefHit());
+        if (abstractWarrior.getHealth() > currentHit) {
+            abstractWarrior.setHealth(abstractWarrior.getHealth() - currentHit);
+        } else {
+            abstractWarrior.setHealth(0);
+        }
     }
 
     public AbstractWarrior chooseOtherWarrior(Action action, List<Squad> squads) {
-        return null;
-    }
-
-    public List<Squad> getEnemySquad(Squad squad, Action action, List<Squad> squads) {
-        return null;
-    }
-
-    public void doHit(Action action, AbstractWarrior abstractWarriorEnemy) {
-
-    }
-
-    public List<Squad> getEnemySquad(List<Squad> squads) {
         return null;
     }
 
@@ -52,6 +45,11 @@ public class ArcherElf extends Archer {
     }
 
     public void doArchery(AbstractWarrior abstractWarrior) {
-
+        int currentHit = (int) Math.round(hitArc * this.getKoefHit());
+        if (abstractWarrior.getHealth() > currentHit) {
+            abstractWarrior.setHealth(abstractWarrior.getHealth() - currentHit);
+        } else {
+            abstractWarrior.setHealth(0);
+        }
     }
 }

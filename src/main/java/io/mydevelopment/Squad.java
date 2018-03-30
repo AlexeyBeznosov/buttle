@@ -56,17 +56,17 @@ public class Squad {
             case ELF: {
                 sideOfWar = true;
                 for (int i = 0; i < countWarlock; i++) {
-                    AbstractWarrior warrior = new WarlockElf(race, sideOfWar);
+                    AbstractWarrior warrior = new WarlockElf(race, sideOfWar, this);
                     warrior.fillActions();
                     warriors.add(warrior);
                 }
                 for (int i = 0; i < countArcher; i++) {
-                    AbstractWarrior warrior = new ArcherElf(race, sideOfWar);
+                    AbstractWarrior warrior = new ArcherElf(race, sideOfWar, this);
                     warrior.fillActions();
                     warriors.add(warrior);
                 }
                 for (int i = 0; i < countFighter; i++) {
-                    AbstractWarrior warrior = new FighterElf(race, sideOfWar);
+                    AbstractWarrior warrior = new FighterElf(race, sideOfWar, this);
                     warrior.fillActions();
                     warriors.add(warrior);
                 }
@@ -75,17 +75,17 @@ public class Squad {
             case HUMAN: {
                 sideOfWar = true;
                 for (int i = 0; i < countWarlock; i++) {
-                    AbstractWarrior warrior = new WarlockHuman(race, sideOfWar);
+                    AbstractWarrior warrior = new WarlockHuman(race, sideOfWar, this);
                     warrior.fillActions();
                     warriors.add(warrior);
                 }
                 for (int i = 0; i < countArcher; i++) {
-                    AbstractWarrior warrior = new ArcherHuman(race, sideOfWar);
+                    AbstractWarrior warrior = new ArcherHuman(race, sideOfWar, this);
                     warrior.fillActions();
                     warriors.add(warrior);
                 }
                 for (int i = 0; i < countFighter; i++) {
-                    AbstractWarrior warrior = new FighterHuman(race, sideOfWar);
+                    AbstractWarrior warrior = new FighterHuman(race, sideOfWar, this);
                     warrior.fillActions();
                     warriors.add(warrior);
                 }
@@ -94,17 +94,17 @@ public class Squad {
             case ORC: {
                 sideOfWar = false;
                 for (int i = 0; i < countWarlock; i++) {
-                    AbstractWarrior warrior = new WarlockOrc(race, sideOfWar);
+                    AbstractWarrior warrior = new WarlockOrc(race, sideOfWar, this);
                     warrior.fillActions();
                     warriors.add(warrior);
                 }
                 for (int i = 0; i < countArcher; i++) {
-                    AbstractWarrior warrior = new ArcherOrc(race, sideOfWar);
+                    AbstractWarrior warrior = new ArcherOrc(race, sideOfWar, this);
                     warrior.fillActions();
                     warriors.add(warrior);
                 }
                 for (int i = 0; i < countFighter; i++) {
-                    AbstractWarrior warrior = new FighterOrc(race, sideOfWar);
+                    AbstractWarrior warrior = new FighterOrc(race, sideOfWar, this);
                     warrior.fillActions();
                     warriors.add(warrior);
                 }
@@ -116,17 +116,17 @@ public class Squad {
                 //fillSquad(WarlockUndead.class);
 
                 for (int i = 0; i < countWarlock; i++) {
-                    AbstractWarrior warrior = new WarlockUndead(race, sideOfWar);
+                    AbstractWarrior warrior = new WarlockUndead(race, sideOfWar, this);
                     warrior.fillActions();
                     warriors.add(warrior);
                 }
                 for (int i = 0; i < countArcher; i++) {
-                    AbstractWarrior warrior = new ArcherUndead(race, sideOfWar);
+                    AbstractWarrior warrior = new ArcherUndead(race, sideOfWar, this);
                     warrior.fillActions();
                     warriors.add(warrior);
                 }
                 for (int i = 0; i < countFighter; i++) {
-                    AbstractWarrior warrior = new FighterUndead(race, sideOfWar);
+                    AbstractWarrior warrior = new FighterUndead(race, sideOfWar, this);
                     warrior.fillActions();
                     warriors.add(warrior);
                 }
@@ -151,10 +151,10 @@ public class Squad {
         Action action = abstractWarrior.selectRandomAction();
 
         List<Squad> enemySquads = abstractWarrior.getEnemySquad(this, action, squads);
+
         Squad enemySquad = getRandomSquad(enemySquads);
         AbstractWarrior abstractWarriorEnemy = getRandomWarrior(enemySquad.getWarriors());
         abstractWarrior.doHit(action, abstractWarriorEnemy, enemySquad);
-
 
         if (abstractWarrior.isPrivileged()) {
             abstractWarrior.setPrivileged(false);

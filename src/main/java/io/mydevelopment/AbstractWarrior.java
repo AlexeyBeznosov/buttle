@@ -5,19 +5,21 @@ import java.util.List;
 
 
 public abstract class AbstractWarrior {
-    int health = 100;
-    boolean isPrivileged = false;
-    double koefHit = 1;
+    private int health = 100;
+    private boolean isPrivileged = false;
+    private double koefHit = 1;
     protected Race race;
     protected boolean sideOfWar;
     protected List<Action> actions;
+    protected Squad currentSquad;
 
     public AbstractWarrior() {
     }
 
-    public AbstractWarrior(Race race, boolean sideOfWar) {
+    public AbstractWarrior(Race race, boolean sideOfWar, Squad currentSquad) {
         this.race = race;
         this.sideOfWar = sideOfWar;
+        this.currentSquad = currentSquad;
         actions = new ArrayList<Action>();
     }
 
@@ -65,26 +67,6 @@ public abstract class AbstractWarrior {
 
     public abstract AbstractWarrior chooseOtherWarrior(Action action, List<Squad> squads);
 
-//    public void chooseDo() {
-//        Action action = selectAction();
-//        System.out.println(action.toString());
-//    }
-
-//    private void doAction(Action action, List<Squad> squads) {
-//        switch (action) {
-//            case WIZ: {
-//
-//                break;
-//            }
-//            case ARC: {
-//                break;
-//            }
-//            case FIGHT: {
-//                break;
-//            }
-//        }
-//    }
-
     public Action selectRandomAction() {
         int choice = (int) Math.round((actions.size() - 1) * Math.random());
         return actions.get(choice);
@@ -92,7 +74,38 @@ public abstract class AbstractWarrior {
 
     public abstract void fillActions();
 
-    public abstract List<Squad> getEnemySquad(Squad squad, Action action, List<Squad> squads);
+    public List<Squad> getEnemySquad(Squad squad, Action action, List<Squad> squads) {
+        List<Squad> enemySquads = new ArrayList<Squad>();
+        switch (action) {
+            case FIGHT: {
+                for (Squad squadOfGame : squads) {
+                    if (!(squadOfGame.getSideOfWar() == squad.getSideOfWar())) {
+                        enemySquads.add(squadOfGame);
+                    }
+                }
+                return enemySquads;
+            }
+        }
+        return null;
+    }
 
-    public abstract void doHit(Action action, AbstractWarrior abstractWarriorEnemy, Squad squad);
+    public void doHit(Action action, AbstractWarrior abstractWarriorEnemy, Squad squad) {
+        switch (action) {
+            case FIGHT: {
+                doFight(abstractWarriorEnemy);
+                if (!chechHealth(abstractWarriorEnemy)) {
+                    squad.getWarriors().remove(abstractWarriorEnemy);
+                }
+                break;
+            }
+        }
+    }
+
+    public boolean chechHealth(AbstractWarrior abstractWarrior) {
+        if (abstractWarrior.getHealth() == 0) {
+            return false;
+            //enemySquad.getWarriors().remove(abstractWarriorEnemy);
+        }
+        return true;
+    }
 }

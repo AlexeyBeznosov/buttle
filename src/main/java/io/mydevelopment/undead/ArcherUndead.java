@@ -15,8 +15,8 @@ public class ArcherUndead extends Archer {
     public ArcherUndead() {
     }
 
-    public ArcherUndead(Race race, boolean sideOfWar) {
-        super(race, sideOfWar);
+    public ArcherUndead(Race race, boolean sideOfWar, Squad currentSquad) {
+        super(race, sideOfWar, currentSquad);
     }
 
     public int getHitArc() {
@@ -28,14 +28,15 @@ public class ArcherUndead extends Archer {
     }
 
     public void doFight(AbstractWarrior abstractWarrior) {
-
+        int currentHit = (int) Math.round(hitFight * this.getKoefHit());
+        if (abstractWarrior.getHealth() > currentHit) {
+            abstractWarrior.setHealth(abstractWarrior.getHealth() - currentHit);
+        } else {
+            abstractWarrior.setHealth(0);
+        }
     }
 
     public AbstractWarrior chooseOtherWarrior(Action action, List<Squad> squads) {
-        return null;
-    }
-
-    public List<Squad> getEnemySquad(List<Squad> squads) {
         return null;
     }
 
@@ -44,6 +45,11 @@ public class ArcherUndead extends Archer {
     }
 
     public void doArchery(AbstractWarrior abstractWarrior) {
-
+        int currentHit = (int) Math.round(hitArc * this.getKoefHit());
+        if (abstractWarrior.getHealth() > currentHit) {
+            abstractWarrior.setHealth(abstractWarrior.getHealth() - currentHit);
+        } else {
+            abstractWarrior.setHealth(0);
+        }
     }
 }
