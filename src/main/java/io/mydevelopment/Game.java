@@ -1,14 +1,19 @@
 package io.mydevelopment;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
+import java.util.*;
 
 public class Game {
     final int COUNT_WARLOCK = 1;
     final int COUNT_ARCHER = 3;
     final int COUNT_FIGHTER = 4;
+    Race[][] arrayOfRaces = {{Race.ELF, Race.HUMAN},{Race.ORC, Race.UNDEAD}};
     List<Race> races;
     List<Squad> squads;
+
+    int countWhite;
+    int countBlack;
 
     public Game() {
         squads = new ArrayList<Squad>();
@@ -34,12 +39,28 @@ public class Game {
 
     private void doFight() {
         Squad currentSquad = selectRandomSquad();
-        do {
+        while (true) {
             currentSquad.fightWarrior(squads);
-            currentSquad = selectOtherSquad(currentSquad);
-        } while (!currentSquad.getWarriors().isEmpty());
+            checkSquads();
+            if (countWhite > 0 && countBlack > 0) {
+                currentSquad = selectOtherSquad(currentSquad);
+            } else {
+                System.out.println("win - " + currentSquad.getRace());
+                break;
+            }
+        }
+    }
 
-
+    private void checkSquads() {
+        countWhite = 0;
+        countBlack = 0;
+        for (Squad squad : squads) {
+            if  (squad.getSideOfWar() == 0 && squad.isAlive()) {
+                countWhite++;
+            } else if (squad.getSideOfWar() == 1 && squad.isAlive()) {
+                countBlack++;
+            }
+        }
     }
 
     private Squad selectOtherSquad(Squad currentSquad) {
@@ -57,7 +78,8 @@ public class Game {
 
     private void generateSquadsOfRaces() {
         for (Race race : races) {
-            Squad squad = new Squad(race, COUNT_WARLOCK, COUNT_ARCHER, COUNT_FIGHTER);
+            int sideOfWar = getIndexSideOfWar(race);
+            Squad squad = new Squad(race, sideOfWar, COUNT_WARLOCK, COUNT_ARCHER, COUNT_FIGHTER);
             squad.createSquad();
             squads.add(squad);
         }
@@ -71,9 +93,19 @@ public class Game {
             if (!checkContainsRace(number)) {
                 Race race = Race.values()[number];
                 races.add(race);
+                addCountSideWar(race);
                 countSquad++;
                 System.out.println(number + " - " + race);
             }
+        }
+    }
+
+    private void addCountSideWar(Race race) {
+        int index = getIndexSideOfWar(race);
+        if (index == 0) {
+            countWhite++;
+        } else if (index == 1) {
+            countBlack++;
         }
     }
 
@@ -82,20 +114,44 @@ public class Game {
         if (races.contains(race)) {
             return true;
         }
-        switch (race) {
-            case HUMAN: {
-                return races.contains(Race.ELF);
-            }
-            case ELF: {
-                return races.contains(Race.HUMAN);
-            }
-            case ORC: {
-                return races.contains(Race.UNDEAD);
-            }
-            case UNDEAD: {
-                return races.contains(Race.ORC);
+        return checkSideOfWar(race);
+//        switch (race) {
+//            case HUMAN: {
+//                return races.contains(Race.ELF);
+//            }
+//            case ELF: {
+//                return races.contains(Race.HUMAN);
+//            }
+//            case ORC: {
+//                return races.contains(Race.UNDEAD);
+//            }
+//            case UNDEAD: {
+//                return races.contains(Race.ORC);
+//            }
+//        }
+//        return false;
+    }
+
+    private boolean checkSideOfWar(Race race) {
+        if (getIndexSideOfWar(race) == 0) {
+            return countWhite > 0 ? true : false;
+        } else if (getIndexSideOfWar(race) == 1) {
+            return countBlack > 0 ? true : false;
+        }
+        return true;
+    }
+
+    private int getIndexSideOfWar(Race race) {
+        List<Race> listOfRaces;
+        for (int i = 0; i < arrayOfRaces.length; i++) {
+            listOfRaces = new ArrayList<Race>();
+            Collections.addAll(listOfRaces, arrayOfRaces[i]);
+            if (listOfRaces.contains(race)) {
+                return i;
             }
         }
-        return false;
+        return 0;
     }
+
+
 }

@@ -6,7 +6,6 @@ import io.mydevelopment.Race;
 import io.mydevelopment.Squad;
 import io.mydevelopment.base.Warlock;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WarlockOrc extends Warlock {
@@ -14,12 +13,12 @@ public class WarlockOrc extends Warlock {
     public WarlockOrc() {
     }
 
-    public WarlockOrc(Race race, boolean sideOfWar, Squad currentSquad) {
+    public WarlockOrc(Race race, int sideOfWar, Squad currentSquad) {
         super(race, sideOfWar, currentSquad);
     }
 
-    public void doFight(AbstractWarrior abstractWarrior) {
-
+    public void doFight(AbstractWarrior abstractWarriorEnemy) {
+        abstractWarriorEnemy.setPrivileged(false);
     }
 
     public AbstractWarrior chooseOtherWarrior(Action action, List<Squad> squads) {
@@ -34,17 +33,18 @@ public class WarlockOrc extends Warlock {
         abstractWarrior.setPrivileged(true);
     }
 
-    public void doHit(Action action, AbstractWarrior abstractWarriorEnemy, Squad squad) {
+    public void doHit(Action action, AbstractWarrior abstractWarriorEnemy, Squad squadEnemy) {
         switch (action) {
             case WIZ: {
                 doWiz(abstractWarriorEnemy);
-                squad.getPrivilegedWarriors().add(abstractWarriorEnemy);
+                squadEnemy.getPrivilegedWarriors().add(abstractWarriorEnemy);
+
             }
             case FIGHT: {
                 doFight(abstractWarriorEnemy);
-                if (abstractWarriorEnemy.getHealth() == 0) {
-                    squad.getWarriors().remove(abstractWarriorEnemy);
-                }
+                List<AbstractWarrior> listOfPrivillegedWarriors = squadEnemy.getPrivilegedWarriors();
+                if (listOfPrivillegedWarriors.contains(abstractWarriorEnemy))
+                    listOfPrivillegedWarriors.remove(abstractWarriorEnemy);
             }
         }
     }

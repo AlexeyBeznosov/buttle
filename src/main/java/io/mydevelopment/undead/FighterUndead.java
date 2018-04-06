@@ -14,7 +14,7 @@ public class FighterUndead extends Fighter {
     public FighterUndead() {
     }
 
-    public FighterUndead(Race race, boolean sideOfWar, Squad currentSquad) {
+    public FighterUndead(Race race, int sideOfWar, Squad currentSquad) {
         super(race, sideOfWar, currentSquad);
     }
 

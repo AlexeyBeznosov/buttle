@@ -9,14 +9,14 @@ public abstract class AbstractWarrior {
     private boolean isPrivileged = false;
     private double koefHit = 1;
     protected Race race;
-    protected boolean sideOfWar;
+    protected int sideOfWar;
     protected List<Action> actions;
     protected Squad currentSquad;
 
     public AbstractWarrior() {
     }
 
-    public AbstractWarrior(Race race, boolean sideOfWar, Squad currentSquad) {
+    public AbstractWarrior(Race race, int sideOfWar, Squad currentSquad) {
         this.race = race;
         this.sideOfWar = sideOfWar;
         this.currentSquad = currentSquad;
@@ -55,11 +55,11 @@ public abstract class AbstractWarrior {
         this.race = race;
     }
 
-    public boolean isSideOfWar() {
+    public int getSideOfWar() {
         return sideOfWar;
     }
 
-    public void setSideOfWar(boolean sideOfWar) {
+    public void setSideOfWar(int sideOfWar) {
         this.sideOfWar = sideOfWar;
     }
 

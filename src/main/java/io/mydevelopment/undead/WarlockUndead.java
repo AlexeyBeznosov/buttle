@@ -16,7 +16,7 @@ public class WarlockUndead extends Warlock {
     public WarlockUndead() {
     }
 
-    public WarlockUndead(Race race, boolean sideOfWar, Squad currentSquad) {
+    public WarlockUndead(Race race, int sideOfWar, Squad currentSquad) {
         super(race, sideOfWar, currentSquad);
     }
 
@@ -42,7 +42,7 @@ public class WarlockUndead extends Warlock {
         switch (action) {
             case WIZ: {
                 for (Squad squadOfGame : squads) {
-                    if (!squadOfGame.getSideOfWar() == squad.getSideOfWar()) {
+                    if (!(squadOfGame.getSideOfWar() == squad.getSideOfWar())) {
                         enemySquads.add(squadOfGame);
                     }
                 }
@@ -65,21 +65,19 @@ public class WarlockUndead extends Warlock {
     }
 
     public void doWiz(AbstractWarrior abstractWarrior) {
-        abstractWarrior.setPrivileged(true);
+        abstractWarrior.setKoefHit(0.5);
         System.out.println("колдую");
     }
 
-    public void doHit(Action action, AbstractWarrior abstractWarriorEnemy, Squad squad) {
+    public void doHit(Action action, AbstractWarrior abstractWarriorEnemy, Squad enemySquad) {
         switch (action) {
             case WIZ: {
                 doWiz(abstractWarriorEnemy);
-                squad.getPrivilegedWarriors().add(abstractWarriorEnemy);
+                break;
             }
             case FIGHT: {
-                doFight(abstractWarriorEnemy);
-                if (abstractWarriorEnemy.getHealth() == 0) {
-                    squad.getWarriors().remove(abstractWarriorEnemy);
-                }
+                super.doHit(action, abstractWarriorEnemy, enemySquad);
+                break;
             }
         }
     }

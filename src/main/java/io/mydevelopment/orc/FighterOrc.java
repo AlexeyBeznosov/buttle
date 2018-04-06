@@ -14,7 +14,7 @@ public class FighterOrc extends Fighter {
     public FighterOrc() {
     }
 
-    public FighterOrc(Race race, boolean sideOfWar, Squad currentSquad) {
+    public FighterOrc(Race race, int sideOfWar, Squad currentSquad) {
         super(race, sideOfWar, currentSquad);
     }
 

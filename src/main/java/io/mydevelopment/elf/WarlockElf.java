@@ -15,7 +15,7 @@ public class WarlockElf extends Warlock {
     public WarlockElf() {
     }
 
-    public WarlockElf(Race race, boolean sideOfWar, Squad currentSquad) {
+    public WarlockElf(Race race, int sideOfWar, Squad currentSquad) {
         super(race, sideOfWar, currentSquad);
     }
 

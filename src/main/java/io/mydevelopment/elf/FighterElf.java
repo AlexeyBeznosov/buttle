@@ -14,7 +14,7 @@ public class FighterElf extends Fighter {
     public FighterElf() {
     }
 
-    public FighterElf(Race race, boolean sideOfWar, Squad currentSquad) {
+    public FighterElf(Race race, int sideOfWar, Squad currentSquad) {
         super(race, sideOfWar, currentSquad);
     }
 

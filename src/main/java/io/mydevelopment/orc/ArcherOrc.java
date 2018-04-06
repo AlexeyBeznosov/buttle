@@ -15,7 +15,7 @@ public class ArcherOrc extends Archer {
     public ArcherOrc() {
     }
 
-    public ArcherOrc(Race race, boolean sideOfWar, Squad currentSquad) {
+    public ArcherOrc(Race race, int sideOfWar, Squad currentSquad) {
         super(race, sideOfWar, currentSquad);
     }
 

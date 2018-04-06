@@ -15,7 +15,7 @@ public class ArcherUndead extends Archer {
     public ArcherUndead() {
     }
 
-    public ArcherUndead(Race race, boolean sideOfWar, Squad currentSquad) {
+    public ArcherUndead(Race race, int sideOfWar, Squad currentSquad) {
         super(race, sideOfWar, currentSquad);
     }
 

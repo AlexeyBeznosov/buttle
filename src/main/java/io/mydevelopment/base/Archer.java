@@ -11,7 +11,7 @@ public abstract class Archer extends AbstractWarrior implements Archerable {
     public Archer() {
     }
 
-    public Archer(Race race, boolean sideOfWar, Squad currentSquad) {
+    public Archer(Race race, int sideOfWar, Squad currentSquad) {
         super(race, sideOfWar, currentSquad);
     }
 
@@ -24,6 +24,7 @@ public abstract class Archer extends AbstractWarrior implements Archerable {
         actions.add(action);
     }
 
+    @Override
     public void doHit(Action action, AbstractWarrior abstractWarriorEnemy, Squad enemySquad) {
         switch (action) {
             case ARC: {
@@ -38,5 +39,25 @@ public abstract class Archer extends AbstractWarrior implements Archerable {
                 break;
             }
         }
+    }
+
+    @Override
+    public List<Squad> getEnemySquad(Squad squad, Action action, List<Squad> squads) {
+        List<Squad> enemySquads = new ArrayList<Squad>();
+        switch (action) {
+            case ARC: {
+                for (Squad squadOfGame : squads) {
+                    if (!(squadOfGame.getSideOfWar() == squad.getSideOfWar())) {
+                        enemySquads.add(squadOfGame);
+                    }
+                }
+                return enemySquads;
+            }
+            case FIGHT: {
+                enemySquads = super.getEnemySquad(squad, action, squads);
+                return enemySquads;
+            }
+        }
+        return null;
     }
 }

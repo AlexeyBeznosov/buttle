@@ -13,7 +13,7 @@ public abstract class Fighter extends AbstractWarrior {
     public Fighter() {
     }
 
-    public Fighter(Race race, boolean sideOfWar, Squad currentSquad) {
+    public Fighter(Race race, int sideOfWar, Squad currentSquad) {
         super(race, sideOfWar, currentSquad);
     }
 

@@ -21,16 +21,26 @@ public class Squad {
     private List<AbstractWarrior> warriors;
     private List<AbstractWarrior> privilegedWarriors;
     private Race race;
-    private boolean sideOfWar;
+    private int sideOfWar;
     private int countWarlock;
     private int countArcher;
     private int countFighter;
+    private boolean isAlive;
 
-    public Squad(Race race, int countWarlock, int countArcher, int countFighter) {
+    public Squad(Race race, int sideOfWar, int countWarlock, int countArcher, int countFighter) {
         this.race = race;
+        this.sideOfWar = sideOfWar;
         this.countWarlock = countWarlock;
         this.countArcher = countArcher;
         this.countFighter = countFighter;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean isAlive) {
+        this.isAlive = isAlive;
     }
 
     public List<AbstractWarrior> getWarriors() {
@@ -45,16 +55,16 @@ public class Squad {
         return race;
     }
 
-    public boolean getSideOfWar() {
+    public int getSideOfWar() {
         return sideOfWar;
     }
 
     public void createSquad() {
         warriors = new ArrayList<AbstractWarrior>();
         privilegedWarriors = new ArrayList<AbstractWarrior>();
+        isAlive = true;
         switch (race) {
             case ELF: {
-                sideOfWar = true;
                 for (int i = 0; i < countWarlock; i++) {
                     AbstractWarrior warrior = new WarlockElf(race, sideOfWar, this);
                     warrior.fillActions();
@@ -73,7 +83,6 @@ public class Squad {
                 break;
             }
             case HUMAN: {
-                sideOfWar = true;
                 for (int i = 0; i < countWarlock; i++) {
                     AbstractWarrior warrior = new WarlockHuman(race, sideOfWar, this);
                     warrior.fillActions();
@@ -92,7 +101,6 @@ public class Squad {
                 break;
             }
             case ORC: {
-                sideOfWar = false;
                 for (int i = 0; i < countWarlock; i++) {
                     AbstractWarrior warrior = new WarlockOrc(race, sideOfWar, this);
                     warrior.fillActions();
@@ -111,7 +119,6 @@ public class Squad {
                 break;
             }
             case UNDEAD: {
-                sideOfWar = false;
 
                 //fillSquad(WarlockUndead.class);
 
@@ -158,9 +165,14 @@ public class Squad {
 
         if (abstractWarrior.isPrivileged()) {
             abstractWarrior.setPrivileged(false);
+            privilegedWarriors.remove(abstractWarrior);
         }
         if (abstractWarrior.getKoefHit() < 1 ) {
             abstractWarrior.setKoefHit(1);
+        }
+        if (enemySquad.getWarriors().isEmpty()) {
+            enemySquad.isAlive = false;
+            squads.remove(enemySquad);
         }
     }
 

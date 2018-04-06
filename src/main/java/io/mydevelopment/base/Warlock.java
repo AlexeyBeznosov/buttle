@@ -10,7 +10,7 @@ public abstract class Warlock extends AbstractWarrior implements Warlockable {
     public Warlock() {
     }
 
-    public Warlock(Race race, boolean sideOfWar, Squad currentSquad) {
+    public Warlock(Race race, int sideOfWar, Squad currentSquad) {
         super(race, sideOfWar, currentSquad);
     }
 
