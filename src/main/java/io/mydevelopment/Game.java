@@ -1,16 +1,17 @@
 package io.mydevelopment;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+import io.mydevelopment.controller.Controller;
 
 import java.util.*;
 
 public class Game {
-    final int COUNT_WARLOCK = 1;
-    final int COUNT_ARCHER = 3;
-    final int COUNT_FIGHTER = 4;
-    Race[][] arrayOfRaces = {{Race.ELF, Race.HUMAN},{Race.ORC, Race.UNDEAD}};
-    List<Race> races;
-    List<Squad> squads;
+    private final int COUNT_WARLOCK = 1;
+    private final int COUNT_ARCHER = 3;
+    private final int COUNT_FIGHTER = 4;
+    private Race[][] arrayOfRaces = {{Race.ELF, Race.HUMAN},{Race.ORC, Race.UNDEAD}};
+    private List<Race> races;
+    private List<Squad> squads;
+    private Controller controller;
 
     int countWhite;
     int countBlack;
@@ -18,6 +19,10 @@ public class Game {
     public Game() {
         squads = new ArrayList<Squad>();
         races = new ArrayList<Race>();
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 
     public List<Squad> getSquads() {
@@ -33,14 +38,39 @@ public class Game {
         generateRaces(numberOfSquads);
         generateSquadsOfRaces();
         doFight();
-
-
     }
 
     private void doFight() {
-        Squad currentSquad = selectRandomSquad();
+        Squad currentSquad = selectRandomSquad(squads);
         while (true) {
-            currentSquad.fightWarrior(squads);
+
+            //currentSquad.fightWarrior(squads);
+
+            AbstractWarrior abstractWarrior = currentSquad.selectWarrior();
+            Action action = abstractWarrior.selectRandomAction();
+            List<Squad> enemySquads = abstractWarrior.getEnemySquad(currentSquad, action, squads);
+            Squad enemySquad = selectRandomSquad(enemySquads);
+            AbstractWarrior abstractWarriorEnemy = enemySquad.getRandomWarrior(enemySquad.getWarriors());
+            abstractWarrior.doHit(action, abstractWarriorEnemy, enemySquad);
+
+            System.out.println(abstractWarrior);
+            System.out.println(action);
+            System.out.println(abstractWarriorEnemy);
+            System.out.println();
+
+
+            if (abstractWarrior.isPrivileged()) {
+                abstractWarrior.setPrivileged(false);
+                currentSquad.getPrivilegedWarriors().remove(abstractWarrior);
+            }
+            if (abstractWarrior.getKoefHit() < 1 ) {
+                abstractWarrior.setKoefHit(1);
+            }
+            if (enemySquad.getWarriors().isEmpty()) {
+                enemySquad.setAlive(false);
+                squads.remove(enemySquad);
+            }
+
             checkSquads();
             if (countWhite > 0 && countBlack > 0) {
                 currentSquad = selectOtherSquad(currentSquad);
@@ -66,15 +96,21 @@ public class Game {
     private Squad selectOtherSquad(Squad currentSquad) {
         Squad squad;
         do {
-            squad = selectRandomSquad();
+            squad = selectRandomSquad(squads);
         } while (squad.getRace() == currentSquad.getRace());
         return squad;
     }
 
-    private Squad selectRandomSquad() {
-        int choiseSquad = (int) Math.round(Math.random());
+//    private Squad selectRandomSquad() {
+//        int choiseSquad = (int) Math.round(Math.random());
+//        return squads.get(choiseSquad);
+//    }
+
+    private Squad selectRandomSquad(List<Squad> squads) {
+        int choiseSquad = (int) Math.round((squads.size() - 1) * Math.random());
         return squads.get(choiseSquad);
     }
+
 
     private void generateSquadsOfRaces() {
         for (Race race : races) {
@@ -115,21 +151,6 @@ public class Game {
             return true;
         }
         return checkSideOfWar(race);
-//        switch (race) {
-//            case HUMAN: {
-//                return races.contains(Race.ELF);
-//            }
-//            case ELF: {
-//                return races.contains(Race.HUMAN);
-//            }
-//            case ORC: {
-//                return races.contains(Race.UNDEAD);
-//            }
-//            case UNDEAD: {
-//                return races.contains(Race.ORC);
-//            }
-//        }
-//        return false;
     }
 
     private boolean checkSideOfWar(Race race) {

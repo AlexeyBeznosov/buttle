@@ -104,7 +104,6 @@ public abstract class AbstractWarrior {
     public boolean chechHealth(AbstractWarrior abstractWarrior) {
         if (abstractWarrior.getHealth() == 0) {
             return false;
-            //enemySquad.getWarriors().remove(abstractWarriorEnemy);
         }
         return true;
     }

@@ -1,6 +1,5 @@
 package io.mydevelopment;
 
-import io.mydevelopment.base.Warlock;
 import io.mydevelopment.elf.ArcherElf;
 import io.mydevelopment.elf.FighterElf;
 import io.mydevelopment.elf.WarlockElf;
@@ -176,12 +175,12 @@ public class Squad {
         }
     }
 
-    private Squad getRandomSquad(List<Squad> enemySquads) {
+    public Squad getRandomSquad(List<Squad> enemySquads) {
         int choise = (int) Math.round((enemySquads.size() - 1) * Math.random());
         return enemySquads.get(choise);
     }
 
-    private AbstractWarrior selectWarrior() {
+    public AbstractWarrior selectWarrior() {
         AbstractWarrior abstractWarrior;
         if (!privilegedWarriors.isEmpty()) {
             abstractWarrior = getRandomWarrior(privilegedWarriors);
@@ -191,7 +190,7 @@ public class Squad {
         return abstractWarrior;
     }
 
-    private AbstractWarrior getRandomWarrior(List<AbstractWarrior> warriors) {
+    public AbstractWarrior getRandomWarrior(List<AbstractWarrior> warriors) {
         int choise = (int) Math.round((warriors.size() - 1) * Math.random());
         return warriors.get(choise);
     }
