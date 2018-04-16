@@ -5,9 +5,6 @@ import io.mydevelopment.Action;
 import io.mydevelopment.Race;
 import io.mydevelopment.Squad;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class Fighter extends AbstractWarrior {
 
     public Fighter() {

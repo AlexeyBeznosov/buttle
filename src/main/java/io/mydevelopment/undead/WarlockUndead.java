@@ -33,10 +33,6 @@ public class WarlockUndead extends Warlock {
         }
     }
 
-    public AbstractWarrior chooseOtherWarrior(Action action, List<Squad> squads) {
-        return null;
-    }
-
     public List<Squad> getEnemySquad(Squad squad, Action action, List<Squad> squads) {
         List<Squad> enemySquads = new ArrayList<Squad>();
         switch (action) {
@@ -60,13 +56,8 @@ public class WarlockUndead extends Warlock {
         return null;
     }
 
-    public AbstractWarrior chooseOtherWarrior(List<Squad> squads) {
-        return null;
-    }
-
     public void doWiz(AbstractWarrior abstractWarrior) {
         abstractWarrior.setKoefHit(0.5);
-        System.out.println("колдую");
     }
 
     public void doHit(Action action, AbstractWarrior abstractWarriorEnemy, Squad enemySquad) {

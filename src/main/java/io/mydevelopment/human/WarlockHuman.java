@@ -23,10 +23,6 @@ public class WarlockHuman extends Warlock {
         return hitFight;
     }
 
-    public void doWiz(AbstractWarrior abstractWarrior) {
-        abstractWarrior.setPrivileged(true);
-    }
-
     public void doFight(AbstractWarrior abstractWarrior) {
         int currentHit = (int) Math.round(hitFight * this.getKoefHit());
         if (abstractWarrior.getHealth() > currentHit) {
@@ -34,14 +30,6 @@ public class WarlockHuman extends Warlock {
         } else {
             abstractWarrior.setHealth(0);
         }
-    }
-
-    public AbstractWarrior chooseOtherWarrior(Action action, List<Squad> squads) {
-        return null;
-    }
-
-    public AbstractWarrior chooseOtherWarrior(List<Squad> squads) {
-        return null;
     }
 
     public void doHit(Action action, AbstractWarrior abstractWarriorEnemy, Squad squad) {

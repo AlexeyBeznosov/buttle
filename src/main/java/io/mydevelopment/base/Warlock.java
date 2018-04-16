@@ -43,11 +43,16 @@ public abstract class Warlock extends AbstractWarrior implements Warlockable {
         return null;
     }
 
+    public void doWiz(AbstractWarrior abstractWarrior) {
+        abstractWarrior.setPrivileged(true);
+    }
+
     public void doHit(Action action, AbstractWarrior abstractWarriorEnemy, Squad enemySquad) {
         switch (action) {
             case WIZ: {
                 doWiz(abstractWarriorEnemy);
                 enemySquad.getPrivilegedWarriors().add(abstractWarriorEnemy);
+                abstractWarriorEnemy.setKoefHit(1.5);
                 break;
             }
             case FIGHT: {

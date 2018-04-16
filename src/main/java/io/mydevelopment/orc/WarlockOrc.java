@@ -21,24 +21,10 @@ public class WarlockOrc extends Warlock {
         abstractWarriorEnemy.setPrivileged(false);
     }
 
-    public AbstractWarrior chooseOtherWarrior(Action action, List<Squad> squads) {
-        return null;
-    }
-
-    public AbstractWarrior chooseOtherWarrior(List<Squad> squads) {
-        return null;
-    }
-
-    public void doWiz(AbstractWarrior abstractWarrior) {
-        abstractWarrior.setPrivileged(true);
-    }
-
     public void doHit(Action action, AbstractWarrior abstractWarriorEnemy, Squad squadEnemy) {
         switch (action) {
             case WIZ: {
-                doWiz(abstractWarriorEnemy);
-                squadEnemy.getPrivilegedWarriors().add(abstractWarriorEnemy);
-
+                super.doHit(action, abstractWarriorEnemy, squadEnemy);
             }
             case FIGHT: {
                 doFight(abstractWarriorEnemy);

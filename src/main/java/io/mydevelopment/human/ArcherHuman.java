@@ -36,10 +36,6 @@ public class ArcherHuman extends Archer {
         }
     }
 
-    public AbstractWarrior chooseOtherWarrior(Action action, List<Squad> squads) {
-        return null;
-    }
-
     public void doArchery(AbstractWarrior abstractWarrior) {
         int currentHit = (int) Math.round(hitArc * this.getKoefHit());
         if (abstractWarrior.getHealth() > currentHit) {

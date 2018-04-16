@@ -30,12 +30,4 @@ public class FighterUndead extends Fighter {
             abstractWarrior.setHealth(0);
         }
     }
-
-    public AbstractWarrior chooseOtherWarrior(Action action, List<Squad> squads) {
-        return null;
-    }
-
-    public AbstractWarrior chooseOtherWarrior(List<Squad> squads) {
-        return null;
-    }
 }

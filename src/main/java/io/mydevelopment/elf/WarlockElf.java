@@ -27,14 +27,6 @@ public class WarlockElf extends Warlock {
         this.hitFight = hitFight;
     }
 
-    public AbstractWarrior chooseOtherWarrior(Action action, List<Squad> squads) {
-        return null;
-    }
-
-    public void doWiz(AbstractWarrior abstractWarrior) {
-        abstractWarrior.setPrivileged(true);
-    }
-
     public void doFight(AbstractWarrior abstractWarrior) {
         int currentHit = (int) Math.round(hitFight * this.getKoefHit());
         if (abstractWarrior.getHealth() > currentHit) {

@@ -65,8 +65,6 @@ public abstract class AbstractWarrior {
 
     public abstract void doFight(AbstractWarrior abstractWarrior);
 
-    public abstract AbstractWarrior chooseOtherWarrior(Action action, List<Squad> squads);
-
     public Action selectRandomAction() {
         int choice = (int) Math.round((actions.size() - 1) * Math.random());
         return actions.get(choice);

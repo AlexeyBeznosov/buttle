@@ -4,7 +4,7 @@ import io.mydevelopment.controller.Controller;
 
 import java.util.*;
 
-public class Game {
+public class Game extends Observable {
     private final int COUNT_WARLOCK = 1;
     private final int COUNT_ARCHER = 3;
     private final int COUNT_FIGHTER = 4;
@@ -51,19 +51,22 @@ public class Game {
             List<Squad> enemySquads = abstractWarrior.getEnemySquad(currentSquad, action, squads);
             Squad enemySquad = selectRandomSquad(enemySquads);
             AbstractWarrior abstractWarriorEnemy = enemySquad.getRandomWarrior(enemySquad.getWarriors());
-            abstractWarrior.doHit(action, abstractWarriorEnemy, enemySquad);
 
             System.out.println(abstractWarrior);
             System.out.println(action);
             System.out.println(abstractWarriorEnemy);
-            System.out.println();
+            System.out.println(abstractWarriorEnemy.getHealth());
 
+            abstractWarrior.doHit(action, abstractWarriorEnemy, enemySquad);
+
+            System.out.println(abstractWarriorEnemy.getHealth());
+            System.out.println();
 
             if (abstractWarrior.isPrivileged()) {
                 abstractWarrior.setPrivileged(false);
                 currentSquad.getPrivilegedWarriors().remove(abstractWarrior);
             }
-            if (abstractWarrior.getKoefHit() < 1 ) {
+            if (!(abstractWarrior.getKoefHit() == 1)) {
                 abstractWarrior.setKoefHit(1);
             }
             if (enemySquad.getWarriors().isEmpty()) {
@@ -101,16 +104,10 @@ public class Game {
         return squad;
     }
 
-//    private Squad selectRandomSquad() {
-//        int choiseSquad = (int) Math.round(Math.random());
-//        return squads.get(choiseSquad);
-//    }
-
     private Squad selectRandomSquad(List<Squad> squads) {
         int choiseSquad = (int) Math.round((squads.size() - 1) * Math.random());
         return squads.get(choiseSquad);
     }
-
 
     private void generateSquadsOfRaces() {
         for (Race race : races) {
@@ -173,6 +170,4 @@ public class Game {
         }
         return 0;
     }
-
-
 }
