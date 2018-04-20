@@ -1,8 +1,11 @@
 package io.mydevelopment;
 
+import io.mydevelopment.base.AbstractWarrior;
 import io.mydevelopment.elf.ArcherElf;
 import io.mydevelopment.elf.FighterElf;
 import io.mydevelopment.elf.WarlockElf;
+import io.mydevelopment.enums.Action;
+import io.mydevelopment.enums.Race;
 import io.mydevelopment.human.ArcherHuman;
 import io.mydevelopment.human.FighterHuman;
 import io.mydevelopment.human.WarlockHuman;

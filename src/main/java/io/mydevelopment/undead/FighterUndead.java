@@ -1,12 +1,9 @@
 package io.mydevelopment.undead;
 
-import io.mydevelopment.AbstractWarrior;
-import io.mydevelopment.Action;
-import io.mydevelopment.Race;
+import io.mydevelopment.base.AbstractWarrior;
+import io.mydevelopment.enums.Race;
 import io.mydevelopment.Squad;
 import io.mydevelopment.base.Fighter;
-
-import java.util.List;
 
 public class FighterUndead extends Fighter {
     private int hitFight = 18;

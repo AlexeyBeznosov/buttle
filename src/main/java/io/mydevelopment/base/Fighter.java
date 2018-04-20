@@ -1,8 +1,7 @@
 package io.mydevelopment.base;
 
-import io.mydevelopment.AbstractWarrior;
-import io.mydevelopment.Action;
-import io.mydevelopment.Race;
+import io.mydevelopment.enums.Action;
+import io.mydevelopment.enums.Race;
 import io.mydevelopment.Squad;
 
 public abstract class Fighter extends AbstractWarrior {

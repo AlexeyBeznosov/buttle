@@ -1,28 +1,28 @@
 package io.mydevelopment;
 
+import io.mydevelopment.base.AbstractWarrior;
 import io.mydevelopment.controller.Controller;
+import io.mydevelopment.enums.Action;
+import io.mydevelopment.enums.Race;
+import io.mydevelopment.observer.MyObserver;
 
 import java.util.*;
 
-public class Game extends Observable {
+public class Game implements Subject {
     private final int COUNT_WARLOCK = 1;
     private final int COUNT_ARCHER = 3;
     private final int COUNT_FIGHTER = 4;
     private Race[][] arrayOfRaces = {{Race.ELF, Race.HUMAN},{Race.ORC, Race.UNDEAD}};
     private List<Race> races;
     private List<Squad> squads;
-    private Controller controller;
-
-    int countWhite;
-    int countBlack;
+    private int countWhite;
+    private int countBlack;
+    private List<MyObserver> observers;
 
     public Game() {
         squads = new ArrayList<Squad>();
         races = new ArrayList<Race>();
-    }
-
-    public void setController(Controller controller) {
-        this.controller = controller;
+        observers = new ArrayList<MyObserver>();
     }
 
     public List<Squad> getSquads() {
@@ -43,24 +43,17 @@ public class Game extends Observable {
     private void doFight() {
         Squad currentSquad = selectRandomSquad(squads);
         while (true) {
-
-            //currentSquad.fightWarrior(squads);
-
             AbstractWarrior abstractWarrior = currentSquad.selectWarrior();
             Action action = abstractWarrior.selectRandomAction();
             List<Squad> enemySquads = abstractWarrior.getEnemySquad(currentSquad, action, squads);
             Squad enemySquad = selectRandomSquad(enemySquads);
             AbstractWarrior abstractWarriorEnemy = enemySquad.getRandomWarrior(enemySquad.getWarriors());
 
-            System.out.println(abstractWarrior);
-            System.out.println(action);
-            System.out.println(abstractWarriorEnemy);
-            System.out.println(abstractWarriorEnemy.getHealth());
-
+            int hit = abstractWarriorEnemy.getHealth();
             abstractWarrior.doHit(action, abstractWarriorEnemy, enemySquad);
-
-            System.out.println(abstractWarriorEnemy.getHealth());
-            System.out.println();
+            hit = hit - abstractWarriorEnemy.getHealth();
+            boolean isAlive = abstractWarriorEnemy.getHealth() > 0 ? true : false;
+            notifyAllObservers(abstractWarrior, abstractWarriorEnemy, hit, isAlive);
 
             if (abstractWarrior.isPrivileged()) {
                 abstractWarrior.setPrivileged(false);
@@ -78,7 +71,8 @@ public class Game extends Observable {
             if (countWhite > 0 && countBlack > 0) {
                 currentSquad = selectOtherSquad(currentSquad);
             } else {
-                System.out.println("win - " + currentSquad.getRace());
+                notifyAllObservers(currentSquad.getRace());
+                //System.out.println("win - " + currentSquad.getRace());
                 break;
             }
         }
@@ -169,5 +163,34 @@ public class Game extends Observable {
             }
         }
         return 0;
+    }
+
+    public void add(MyObserver observer) {
+        if (!(observer == null)) {
+            observers.add(observer);
+        }
+    }
+
+    public void remove(MyObserver observer) {
+        if (observers.contains(observer)) {
+            observers.remove(observer);
+        }
+    }
+
+    public void notifyAllObservers(AbstractWarrior abstractWarrior, AbstractWarrior abstractWarriorEnemy, int hit, boolean isAlive) {
+        if (!observers.isEmpty()) {
+            for (MyObserver observer : observers) {
+                observer.update(abstractWarrior, abstractWarriorEnemy, hit, isAlive);
+            }
+        }
+    }
+
+    public void notifyAllObservers(Race winRace) {
+        if (winRace != null) {
+            for (MyObserver observer : observers) {
+                observer.update(winRace);
+            }
+        }
+
     }
 }

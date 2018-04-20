@@ -1,6 +1,8 @@
 package io.mydevelopment.base;
 
 import io.mydevelopment.*;
+import io.mydevelopment.enums.Action;
+import io.mydevelopment.enums.Race;
 
 import java.util.ArrayList;
 import java.util.List;

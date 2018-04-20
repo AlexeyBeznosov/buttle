@@ -1,4 +1,8 @@
-package io.mydevelopment;
+package io.mydevelopment.base;
+
+import io.mydevelopment.enums.Action;
+import io.mydevelopment.enums.Race;
+import io.mydevelopment.Squad;
 
 import java.util.ArrayList;
 import java.util.List;
