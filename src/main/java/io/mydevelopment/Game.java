@@ -1,7 +1,6 @@
 package io.mydevelopment;
 
 import io.mydevelopment.base.AbstractWarrior;
-import io.mydevelopment.controller.Controller;
 import io.mydevelopment.enums.Action;
 import io.mydevelopment.enums.Race;
 import io.mydevelopment.observer.MyObserver;
@@ -52,7 +51,7 @@ public class Game implements Subject {
             int hit = abstractWarriorEnemy.getHealth();
             abstractWarrior.doHit(action, abstractWarriorEnemy, enemySquad);
             hit = hit - abstractWarriorEnemy.getHealth();
-            boolean isAlive = abstractWarriorEnemy.getHealth() > 0 ? true : false;
+            boolean isAlive = abstractWarriorEnemy.getHealth() > 0;
             notifyAllObservers(abstractWarrior, abstractWarriorEnemy, hit, isAlive);
 
             if (abstractWarrior.isPrivileged()) {
@@ -72,7 +71,6 @@ public class Game implements Subject {
                 currentSquad = selectOtherSquad(currentSquad);
             } else {
                 notifyAllObservers(currentSquad.getRace());
-                //System.out.println("win - " + currentSquad.getRace());
                 break;
             }
         }
